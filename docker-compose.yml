@@ -1,0 +1,112 @@
+name: uptime-kuma
+
+version: "3.8"
+
+services:
+  uptime-kuma:
+    # Imagen oficial. "latest" = última versión disponible en Docker Hub
+    image: louislam/uptime-kuma:latest
+
+    # Nombre fijo del contenedor (opcional pero útil)
+    container_name: uptime-kuma
+
+    ports:
+      # Puerto HOST:CONTENEDOR
+      # Accederás en: http://localhost:7321
+      - "7321:3001"
+
+    volumes:
+      # 🔥 MUY IMPORTANTE (persistencia de datos)
+      # Guarda la base de datos y config en tu PC
+      # ./ = misma carpeta donde está este docker-compose.yml
+      # uptime-kuma-data = carpeta que se creará automáticamente
+      - ./uptime-kuma-data:/app/data
+
+    # Reinicia automáticamente si el contenedor se cae o reinicias el PC
+    restart: always
+
+    # (OPCIONAL) Siempre intenta traer la última imagen antes de iniciar
+    # Requiere Docker moderno
+    # pull_policy: always
+
+
+# ================================
+# 📌 PRIMERA VEZ (INSTALACIÓN)
+# ================================
+# Ejecuta en la carpeta donde está este archivo:
+#
+# docker compose up -d
+#
+# Luego entra a:
+# http://localhost:7321
+#
+# Configuras usuario y listo
+
+
+# ================================
+# 🔄 ACTUALIZAR A ÚLTIMA VERSIÓN
+# ================================
+# Opción recomendada:
+#
+# docker compose pull
+# docker compose up -d
+#
+# Esto descarga la nueva versión sin borrar tus datos
+
+
+# ================================
+# ⚡ ACTUALIZAR EN UNA SOLA LÍNEA
+# ================================
+#
+# docker compose up -d --pull always
+
+
+# ================================
+# 🧪 PROBAR QUE LOS DATOS SE GUARDAN
+# ================================
+#
+# 1. Configura Uptime Kuma
+# 2. Ejecuta:
+#    docker compose down
+#    docker compose up -d
+#
+# 3. Si todo sigue igual → OK (persistencia funcionando)
+
+
+# ================================
+# 📁 DÓNDE SE GUARDAN LOS DATOS
+# ================================
+#
+# En la carpeta:
+# ./uptime-kuma-data
+#
+# Ahí verás:
+# - kuma.db  (base de datos)
+# - logs/
+#
+# ⚠️ NO borres esa carpeta si no quieres perder todo
+
+
+# ================================
+# ⚠️ ERRORES COMUNES
+# ================================
+#
+# 1. Ejecutar docker desde otra carpeta
+#    → crea otro ./uptime-kuma-data vacío
+#
+# 2. Cambiar la ruta del volume
+#    → parece que “se borró todo”
+#
+# 3. Usar rutas tipo /mydir en Windows
+#    → no persiste correctamente
+
+
+# ================================
+# 💡 OPCIONAL (MÁS SEGURO)
+# ================================
+#
+# En vez de "latest", puedes fijar versión:
+#
+# image: louislam/uptime-kuma:1
+#
+# Así evitas que una actualización rompa algo inesperadamente
