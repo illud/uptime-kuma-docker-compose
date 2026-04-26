@@ -5,7 +5,7 @@ version: "3.8"
 services:
   uptime-kuma:
     # Imagen oficial. "latest" = última versión disponible en Docker Hub
-    image: louislam/uptime-kuma:latest
+    image: louislam/uptime-kuma:2
 
     # Nombre fijo del contenedor (opcional pero útil)
     container_name: uptime-kuma
